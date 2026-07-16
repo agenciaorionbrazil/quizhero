@@ -1,2 +1,2599 @@
-OPENAI_API_KEY=coloque_sua_chave_aqui
-OPENAI_MODEL=gpt-5-mini
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Check-up de Performance HERO: descubra como sua energia, corpo, rotina e capacidade de evoluÃ§Ã£o estÃ£o hoje."
+    />
+    <title>Check-up de Performance HERO</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+<style>
+:root {
+  --bg: #070812;
+  --bg-2: #0a0a1a;
+  --panel: rgba(17, 20, 38, 0.82);
+  --panel-strong: #111426;
+  --line: rgba(255, 255, 255, 0.11);
+  --muted: #a0a3b2;
+  --text: #ffffff;
+  --blue: #007bff;
+  --blue-2: #48a1ff;
+  --green: #45d483;
+  --amber: #f2b84b;
+  --red: #ff6678;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+  color-scheme: dark;
+  font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  margin: 0;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(7, 8, 18, 0.2), var(--bg) 780px),
+    var(--bg);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px clamp(16px, 4vw, 44px);
+  background: linear-gradient(180deg, rgba(7, 8, 18, 0.9), rgba(7, 8, 18, 0));
+}
+
+.brand,
+.ghost-link,
+.footer button {
+  border: 0;
+  color: var(--text);
+  background: transparent;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  text-align: left;
+}
+
+.brand strong,
+.brand small {
+  display: block;
+  letter-spacing: 0;
+}
+
+.brand strong {
+  font-size: 1.22rem;
+}
+
+.brand small {
+  color: var(--muted);
+  font-size: 0.73rem;
+}
+
+.ghost-link {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  color: #dfe7ff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+main {
+  flex: 1;
+}
+
+.hero {
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding: 104px clamp(18px, 6vw, 80px) 54px;
+  background:
+    linear-gradient(90deg, rgba(7, 8, 18, 0.96) 0%, rgba(7, 8, 18, 0.82) 42%, rgba(7, 8, 18, 0.3) 78%),
+    linear-gradient(180deg, rgba(7, 8, 18, 0.15), var(--bg) 96%),
+    url("./assets/hero-performance.png") center right / cover no-repeat;
+}
+
+.hero-content {
+  width: min(700px, 100%);
+}
+
+.hero-grid {
+  width: min(1180px, 100%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  gap: clamp(26px, 5vw, 68px);
+  align-items: center;
+}
+
+.access-card {
+  position: relative;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  padding: clamp(20px, 4vw, 30px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.035) 44%, rgba(0, 123, 255, 0.07)),
+    rgba(9, 12, 28, 0.84);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(22px) saturate(1.1);
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.access-card::before {
+  content: "";
+  position: absolute;
+  inset: -36% -18%;
+  z-index: 0;
+  background:
+    linear-gradient(115deg, transparent 0 28%, rgba(255, 255, 255, 0.12) 42%, transparent 58%),
+    linear-gradient(22deg, rgba(0, 123, 255, 0.12), transparent 44%);
+  filter: blur(28px);
+  opacity: 0.48;
+  transform: translateX(-18%);
+  transition: opacity 220ms ease, transform 360ms ease;
+}
+
+.access-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .access-card:hover {
+    transform: translateY(-4px);
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.045) 44%, rgba(0, 123, 255, 0.11)),
+      rgba(9, 12, 28, 0.9);
+    box-shadow: 0 34px 96px rgba(0, 0, 0, 0.46), 0 18px 52px rgba(0, 123, 255, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .access-card:hover::before {
+    opacity: 0.68;
+    transform: translateX(0);
+  }
+}
+
+.hero .button,
+.hero .ghost-inline {
+  border: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  color: #c9d9ff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 2px;
+  background: var(--blue);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  max-width: 820px;
+  margin-bottom: 22px;
+  font-size: clamp(2.42rem, 7vw, 5.7rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+h2 {
+  margin-bottom: 14px;
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+h3 {
+  margin-bottom: 10px;
+  font-size: 1.08rem;
+}
+
+.lead {
+  max-width: 680px;
+  color: #d4d8e8;
+  font-size: clamp(1rem, 2.4vw, 1.24rem);
+  line-height: 1.68;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.button {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button.primary {
+  color: #fff;
+  background: var(--blue);
+  box-shadow: 0 14px 34px rgba(0, 123, 255, 0.28);
+}
+
+.button.secondary {
+  color: #e7efff;
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.button.full {
+  width: 100%;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+  box-shadow: none;
+}
+
+.ghost-inline {
+  min-height: 38px;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.trust-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #c7ccd9;
+  font-size: 0.92rem;
+}
+
+.trust-list li {
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.workspace {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 104px clamp(16px, 4vw, 44px) 54px;
+}
+
+.quiz-frame {
+  width: min(1120px, 100%);
+}
+
+.progress-wrap {
+  margin-bottom: 26px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--blue), var(--blue-2));
+  transition: width 320ms ease;
+}
+
+.panel,
+.question-card,
+.result-card,
+.admin-table-wrap {
+  border: 0;
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.panel,
+.question-card {
+  padding: clamp(22px, 5vw, 46px);
+}
+
+.question-card {
+  animation: rise 260ms ease both;
+}
+
+.quiz-stage {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-label {
+  margin-bottom: 14px;
+  color: var(--blue-2);
+  font-size: 0.83rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.support {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.options {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.option {
+  width: 100%;
+  min-height: 66px;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--text);
+  text-align: left;
+  background: rgba(255, 255, 255, 0.045);
+  transition: background 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.option:hover,
+.option:focus-visible {
+  background: rgba(0, 123, 255, 0.11);
+  box-shadow: inset 0 0 0 1px rgba(72, 161, 255, 0.28);
+  outline: 0;
+}
+
+.option.selected {
+  background: rgba(0, 123, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(72, 161, 255, 0.36);
+}
+
+.option-dot {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+}
+
+.option.selected .option-dot {
+  border-color: var(--blue-2);
+  background: radial-gradient(circle, var(--blue-2) 0 42%, transparent 46%);
+}
+
+.option-text strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.option-text small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.nav-row:has(.button:only-child) {
+  justify-content: flex-start;
+}
+
+.answer-feedback {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 8px;
+  color: #dfffea;
+  background: rgba(69, 212, 131, 0.08);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.micro {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.form-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #e4e8f4;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.field input,
+.open-answer textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  outline: 0;
+}
+
+.field input:focus,
+.open-answer textarea:focus {
+  border-color: var(--blue-2);
+}
+
+.form-grid.compact {
+  gap: 12px;
+}
+
+.open-answer {
+  display: grid;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.open-answer textarea {
+  min-height: 150px;
+  padding: 14px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.scale-card {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+  padding: 22px;
+  border: 0;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(0, 123, 255, 0.16), rgba(255, 255, 255, 0.04)),
+    rgba(255, 255, 255, 0.04);
+}
+
+.scale-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.scale-value strong {
+  font-size: clamp(3rem, 12vw, 5.8rem);
+  line-height: 0.9;
+}
+
+.scale-value span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.scale-card input[type="range"] {
+  width: 100%;
+  accent-color: var(--blue);
+}
+
+.scale-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.evidence-card {
+  overflow: hidden;
+  position: relative;
+  min-height: 330px;
+  display: grid;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: var(--shadow);
+}
+
+.evidence-card img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.evidence-body {
+  position: relative;
+  z-index: 2;
+  width: min(520px, 88%);
+  align-self: end;
+  display: grid;
+  gap: 10px;
+  padding: clamp(18px, 4vw, 30px);
+  margin: clamp(14px, 3vw, 26px);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(7, 8, 18, 0.9), rgba(7, 8, 18, 0.64));
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(12px);
+}
+
+.evidence-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(7, 8, 18, 0.72), rgba(7, 8, 18, 0.16) 54%, rgba(7, 8, 18, 0.48)),
+    linear-gradient(180deg, rgba(7, 8, 18, 0.08), rgba(7, 8, 18, 0.78));
+}
+
+.evidence-kicker {
+  color: var(--blue-2);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.evidence-body strong {
+  font-size: clamp(3.1rem, 8vw, 5.6rem);
+  line-height: 0.95;
+}
+
+.evidence-type-activity .evidence-body {
+  justify-self: start;
+}
+
+.evidence-type-sleep .evidence-body {
+  justify-self: end;
+  align-self: center;
+}
+
+.evidence-type-body .evidence-body {
+  justify-self: center;
+}
+
+.evidence-type-consistency .evidence-body {
+  justify-self: start;
+  align-self: start;
+}
+
+.evidence-body p,
+.evidence-body small {
+  margin: 0;
+  color: #dbe2f3;
+  line-height: 1.45;
+}
+
+.evidence-body small {
+  color: var(--muted);
+}
+
+.evidence-body a {
+  color: #d7e7ff;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.check {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: start;
+  color: #d8ddea;
+  line-height: 1.45;
+}
+
+.check input {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--blue);
+}
+
+.processing-list {
+  display: grid;
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.processing-list li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: #dce4f8;
+}
+
+.pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--blue);
+  box-shadow: 0 0 0 8px rgba(0, 123, 255, 0.12);
+}
+
+.result-layout {
+  width: min(1120px, 100%);
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 18px;
+}
+
+.result-card {
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.score-ring {
+  width: min(260px, 72vw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  margin: 22px auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, var(--panel-strong) 0 58%, transparent 59%),
+    conic-gradient(var(--blue) calc(var(--score) * 1%), rgba(255, 255, 255, 0.09) 0);
+}
+
+.score-ring strong {
+  display: block;
+  font-size: clamp(3rem, 12vw, 4.7rem);
+  line-height: 0.9;
+}
+
+.score-ring span {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.classification {
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  color: #dbe9ff;
+  background: rgba(0, 123, 255, 0.1);
+  font-weight: 800;
+}
+
+.metric-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.metric {
+  display: grid;
+  gap: 6px;
+}
+
+.metric-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #e7ebf8;
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.metric-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.metric-track span {
+  display: block;
+  width: var(--metric);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--blue-2);
+}
+
+.diagnosis {
+  counter-reset: item;
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diagnosis li {
+  counter-increment: item;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  color: #dfe5f3;
+  line-height: 1.55;
+}
+
+.diagnosis li::before {
+  content: counter(item);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(0, 123, 255, 0.52);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.action-list,
+.benefit-list {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  color: #e1e6f3;
+  line-height: 1.55;
+}
+
+.offer-band {
+  margin-top: 18px;
+  padding: 20px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(0, 123, 255, 0.08);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px;
+}
+
+.footer button {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 40;
+  max-width: min(360px, calc(100vw - 36px));
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  background: #14182b;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.admin-grid {
+  width: min(1180px, 100%);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.stat {
+  padding: 18px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.stat strong {
+  display: block;
+  font-size: 2rem;
+}
+
+.admin-table-wrap {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+th,
+td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #dbe6ff;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #d8deed;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 820px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .topbar {
+    padding: 10px 14px;
+    background: rgba(7, 8, 18, 0.82);
+    backdrop-filter: blur(14px);
+  }
+
+  .brand small {
+    display: none;
+  }
+
+  .brand strong {
+    font-size: 1.08rem;
+  }
+
+  .ghost-link {
+    min-height: 36px;
+    padding: 0 10px;
+    font-size: 0.86rem;
+  }
+
+  .hero {
+    align-items: end;
+    min-height: 100svh;
+    padding: 78px 14px 24px;
+    background:
+      linear-gradient(180deg, rgba(7, 8, 18, 0.32) 0%, rgba(7, 8, 18, 0.84) 44%, var(--bg) 96%),
+      url("./assets/hero-performance.png") 62% center / cover no-repeat;
+  }
+
+  .hero-grid,
+  .quiz-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .access-card {
+    background: rgba(9, 12, 28, 0.9);
+    padding: 18px;
+  }
+
+  .cta-row,
+  .nav-row {
+    display: grid;
+  }
+
+  .button {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .result-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace {
+    align-items: start;
+    padding: 78px 14px 30px;
+  }
+
+  .quiz-frame {
+    width: 100%;
+  }
+
+  .progress-wrap {
+    margin-bottom: 14px;
+  }
+
+  .panel,
+  .question-card,
+  .result-card {
+    box-shadow: 0 18px 52px rgba(0, 0, 0, 0.28);
+  }
+
+  .question-card {
+    padding: 20px;
+  }
+
+  .question-card h2,
+  .panel h2,
+  .result-card h2 {
+    font-size: clamp(1.55rem, 8vw, 2.25rem);
+    line-height: 1.08;
+  }
+
+  .support,
+  .lead {
+    font-size: 0.98rem;
+    line-height: 1.56;
+  }
+
+  .options {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .option {
+    min-height: 58px;
+    padding: 14px;
+  }
+
+  .evidence-card img {
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .evidence-card {
+    min-height: clamp(280px, 54svh, 440px);
+  }
+
+  .evidence-body {
+    width: min(94%, 520px);
+    margin: 12px;
+    padding: 16px;
+  }
+
+  .evidence-body strong {
+    font-size: clamp(2.7rem, 15vw, 4.2rem);
+  }
+
+  .evidence-body p,
+  .evidence-body small {
+    font-size: 0.9rem;
+  }
+
+  .form-grid {
+    margin-top: 18px;
+  }
+
+  .field input,
+  .open-answer textarea {
+    font-size: 16px;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  h1 {
+    font-size: clamp(2.05rem, 11vw, 2.75rem);
+    line-height: 1.02;
+  }
+
+  .hero {
+    min-height: 100svh;
+    padding-inline: 12px;
+  }
+
+  .panel,
+  .question-card,
+  .result-card {
+    padding: 18px;
+  }
+
+  .hero-grid {
+    gap: 18px;
+  }
+
+  .eyebrow {
+    font-size: 0.76rem;
+    margin-bottom: 14px;
+  }
+
+  .trust-list {
+    gap: 7px;
+    font-size: 0.8rem;
+  }
+
+  .trust-list li {
+    padding: 6px 8px;
+  }
+
+  .access-card h2 {
+    font-size: 1.55rem;
+  }
+
+  .check {
+    font-size: 0.9rem;
+  }
+
+  .progress-meta {
+    font-size: 0.78rem;
+  }
+
+  .question-label {
+    font-size: 0.76rem;
+  }
+
+  .option {
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+  }
+
+  .option-dot {
+    width: 20px;
+    height: 20px;
+  }
+
+  .scale-card {
+    padding: 16px;
+  }
+
+  .scale-value strong {
+    font-size: clamp(3.4rem, 20vw, 5rem);
+  }
+
+  .open-answer textarea {
+    min-height: 132px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-card {
+    grid-template-columns: 1fr;
+    min-height: clamp(260px, 52svh, 390px);
+  }
+
+  .evidence-card img {
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .evidence-body {
+    width: auto;
+    margin: 10px;
+    padding: 14px;
+  }
+
+  .diagnosis li {
+    grid-template-columns: 30px 1fr;
+    gap: 10px;
+  }
+
+  .score-ring {
+    width: min(230px, 76vw);
+  }
+}
+
+@media (max-width: 380px) {
+  .topbar {
+    padding-inline: 10px;
+  }
+
+  .workspace {
+    padding-inline: 10px;
+  }
+
+  .hero {
+    padding-inline: 10px;
+  }
+
+  .question-card,
+  .panel,
+  .result-card,
+  .access-card {
+    padding: 14px;
+  }
+
+  .button {
+    padding-inline: 14px;
+    font-size: 0.9rem;
+  }
+
+  .evidence-body p,
+  .evidence-body small {
+    font-size: 0.84rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <header class="topbar" aria-label="CabeÃ§alho">
+        <button class="brand" type="button" data-action="home" aria-label="Voltar ao inÃ­cio">
+          <span>
+            <strong>HERO</strong>
+            <small>Performance Check-up</small>
+          </span>
+        </button>
+        <button class="ghost-link" type="button" data-action="admin">Admin</button>
+      </header>
+
+      <main id="screen" tabindex="-1">
+        <section class="hero">
+          <div class="hero-grid">
+            <div class="hero-content">
+              <p class="eyebrow">Check-up de Performance HERO</p>
+              <h1>Seu corpo estÃ¡ envelhecendo ou apenas pedindo ajuda?</h1>
+              <p class="lead">
+                FaÃ§a o Check-up de Performance HERO e descubra como sua energia, rotina e composiÃ§Ã£o corporal estÃ£o hoje.
+              </p>
+            </div>
+
+            <aside class="access-card" aria-label="Liberar acesso ao quiz">
+              <p class="question-label">Liberar acesso</p>
+              <h2>Carregando seu check-up.</h2>
+              <p class="support">Se esta mensagem permanecer na tela, atualize a pÃ¡gina.</p>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <button type="button" data-legal="privacy">Privacidade</button>
+        <button type="button" data-legal="terms">Termos</button>
+        <button type="button" data-legal="health">Aviso de saÃºde</button>
+      </footer>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+const STORAGE_KEY = "hero_checkup_v1";
+const WHATSAPP_NUMBER = "5511924787933";
+
+const state = {
+  phase: "landing",
+  route: "landing",
+  profile: null,
+  current: 0,
+  leadCaptured: false,
+  answers: {},
+  lead: {},
+  result: null,
+};
+
+const integrations = {
+  supabaseUrl: "",
+  supabaseAnonKey: "",
+  webhookUrl: "",
+};
+
+const dimensions = [
+  "Energia",
+  "ComposiÃ§Ã£o corporal",
+  "ForÃ§a",
+  "RecuperaÃ§Ã£o",
+  "ConsistÃªncia",
+  "ConfianÃ§a corporal",
+  "Capacidade de evoluÃ§Ã£o",
+];
+
+const evidenceCards = {
+  activity: {
+    male: {
+      stat: "29%",
+      title: "dos homens no mundo nÃ£o atingem o nÃ­vel recomendado de atividade fÃ­sica.",
+      note: "A OMS recomenda 150 minutos de atividade moderada por semana. A pergunta existe porque performance comeÃ§a na regularidade.",
+      source: "OMS, 2024",
+      url: "https://www.who.int/news/item/26-06-2024-nearly-1.8-billion-adults-at-risk-of-disease-from-not-doing-enough-physical-activity",
+      image: "./assets/evidence-male-activity.png",
+    },
+    female: {
+      stat: "34%",
+      title: "das mulheres no mundo nÃ£o atingem o nÃ­vel recomendado de atividade fÃ­sica.",
+      note: "A OMS aponta que a inatividade Ã© mais comum entre mulheres globalmente, o que torna rotina e acesso pontos decisivos.",
+      source: "OMS, 2024",
+      url: "https://www.who.int/news/item/26-06-2024-nearly-1.8-billion-adults-at-risk-of-disease-from-not-doing-enough-physical-activity",
+      image: "./assets/evidence-female-activity.png",
+    },
+  },
+  sleep: {
+    male: {
+      stat: "37%",
+      title: "dos homens adultos nos EUA relataram sono insuficiente em 2022.",
+      note: "O CDC classifica menos de 7 horas por noite como sono insuficiente. Energia e recuperaÃ§Ã£o dependem desse sinal bÃ¡sico.",
+      source: "CDC, 2024",
+      url: "https://www.cdc.gov/sleep/data-research/facts-stats/adults-sleep-facts-and-stats.html",
+      image: "./assets/evidence-male-sleep.png",
+    },
+    female: {
+      stat: "7h",
+      title: "Ã© o mÃ­nimo recomendado de sono para adultos, segundo o CDC.",
+      note: "Quando a rotina acumula cuidado, trabalho e carga mental, o sono costuma ser o primeiro marcador a mostrar desgaste.",
+      source: "CDC, 2024",
+      url: "https://www.cdc.gov/sleep/data-research/facts-stats/adults-sleep-facts-and-stats.html",
+      image: "./assets/evidence-female-sleep.png",
+    },
+  },
+  body: {
+    male: {
+      stat: "57,5%",
+      title: "dos homens adultos brasileiros estavam com sobrepeso em 2019.",
+      note: "A PNS/IBGE tambÃ©m encontrou obesidade em 21,8% dos homens. ComposiÃ§Ã£o corporal Ã© um sinal de rotina acumulada.",
+      source: "IBGE/PNS, 2019",
+      url: "https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/29204-um-em-cada-quatro-adultos-do-pais-estava-obeso-em-2019",
+      image: "./assets/evidence-male-body.png",
+    },
+    female: {
+      stat: "62,6%",
+      title: "das mulheres adultas brasileiras estavam com sobrepeso em 2019.",
+      note: "A PNS/IBGE tambÃ©m encontrou obesidade em 29,5% das mulheres. O ponto aqui nÃ£o Ã© culpa; Ã© clareza sobre direÃ§Ã£o.",
+      source: "IBGE/PNS, 2019",
+      url: "https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/29204-um-em-cada-quatro-adultos-do-pais-estava-obeso-em-2019",
+      image: "./assets/evidence-female-body.png",
+    },
+  },
+  consistency: {
+    male: {
+      stat: "35%",
+      title: "Ã© a projeÃ§Ã£o de inatividade global para 2030 se a tendÃªncia continuar.",
+      note: "Para homens com agenda exigente, o risco costuma aparecer como desempenho mental alto e corpo sempre em segundo plano.",
+      source: "OMS, 2024",
+      url: "https://www.who.int/news/item/26-06-2024-nearly-1.8-billion-adults-at-risk-of-disease-from-not-doing-enough-physical-activity",
+      image: "./assets/evidence-male-consistency.png",
+    },
+    female: {
+      stat: "35%",
+      title: "Ã© a projeÃ§Ã£o de inatividade global para 2030 se a tendÃªncia continuar.",
+      note: "Para mulheres, rotina, sobrecarga e tempo disponÃ­vel sÃ£o parte da pergunta. ConsistÃªncia precisa caber na vida real.",
+      source: "OMS, 2024",
+      url: "https://www.who.int/news/item/26-06-2024-nearly-1.8-billion-adults-at-risk-of-disease-from-not-doing-enough-physical-activity",
+      image: "./assets/evidence-female-consistency.png",
+    },
+  },
+};
+
+const intro = {
+  id: "intro",
+  kind: "intro",
+  label: "Antes de comeÃ§ar",
+  title: "Este check-up nÃ£o mede perfeiÃ§Ã£o. Mede direÃ§Ã£o.",
+  support:
+    "Responda com honestidade. Em menos de 3 minutos, vamos organizar sinais da sua rotina, energia, corpo e capacidade de evoluÃ§Ã£o em um diagnÃ³stico simples de entender.",
+};
+
+const questions = [
+  {
+    id: "profile",
+    label: "PersonalizaÃ§Ã£o",
+    title: "Para personalizarmos sua anÃ¡lise, escolha seu perfil:",
+    options: [
+      {
+        text: "Homem",
+        detail: "Quero avaliar minha energia, forÃ§a, disposiÃ§Ã£o, composiÃ§Ã£o corporal e performance.",
+        value: "male",
+        score: 0,
+      },
+      {
+        text: "Mulher",
+        detail: "Quero avaliar minha energia, autoestima, composiÃ§Ã£o corporal, rotina e evoluÃ§Ã£o fÃ­sica.",
+        value: "female",
+        score: 0,
+      },
+    ],
+  },
+  {
+    id: "body_feeling",
+    label: "IdentificaÃ§Ã£o",
+    title: "Quando foi a Ãºltima vez que vocÃª realmente se sentiu bem com seu corpo?",
+    evidence: "body",
+    options: [
+      { text: "Ainda me sinto bem na maior parte do tempo.", score: 92 },
+      { text: "Tive bons perÃ­odos recentemente, mas nÃ£o consigo manter.", score: 68 },
+      { text: "Faz meses que eu sinto que perdi o controle.", score: 42 },
+      { text: "Faz tanto tempo que quase nÃ£o lembro dessa sensaÃ§Ã£o.", score: 18 },
+    ],
+  },
+  {
+    id: "wake_up",
+    label: "Energia",
+    kind: "scale",
+    title: "De 0 a 10, quanta energia real vocÃª sente ao acordar?",
+    support: "Pense nos Ãºltimos 14 dias, nÃ£o em um dia isolado.",
+    evidence: "sleep",
+    minLabel: "Acordo arrastado",
+    maxLabel: "Acordo pronto",
+    scoreMap: "direct",
+  },
+  {
+    id: "wake_up_pattern",
+    label: "Energia",
+    title: "Como vocÃª acorda na maioria dos dias?",
+    evidence: "sleep",
+    options: [
+      { text: "Com energia suficiente para comeÃ§ar bem.", score: 88 },
+      { text: "Funcional, mas sem aquela disposiÃ§Ã£o real.", score: 62 },
+      { text: "Cansado, mesmo dormindo algumas horas.", score: 36 },
+      { text: "Arrastado, como se o dia jÃ¡ comeÃ§asse pesado.", score: 16 },
+    ],
+  },
+  {
+    id: "routine",
+    label: "Rotina",
+    title: "Hoje, qual frase mais representa sua rotina?",
+    evidence: "consistency",
+    options: [
+      { text: "Tenho uma rotina exigente, mas ainda consigo me cuidar.", score: 84 },
+      { text: "Eu atÃ© tento, mas minha consistÃªncia oscila demais.", score: 58 },
+      { text: "Minha agenda sempre engole meu treino e minha alimentaÃ§Ã£o.", score: 32 },
+      { text: "Eu vivo apagando incÃªndios e deixo meu corpo por Ãºltimo.", score: 14 },
+    ],
+  },
+  {
+    id: "mirror",
+    label: "Desconforto",
+    title: "Quando vocÃª se olha no espelho, como se sente?",
+    evidence: "body",
+    options: [
+      { text: "ReconheÃ§o meu esforÃ§o e sei onde quero melhorar.", score: 86 },
+      { text: "Vejo potencial, mas tambÃ©m muita frustraÃ§Ã£o.", score: 58 },
+      { text: "Evito olhar com atenÃ§Ã£o porque me incomoda.", score: 30 },
+      { text: "Sinto que me afastei muito da pessoa que eu queria ser.", score: 12 },
+    ],
+  },
+  {
+    id: "open_frustration",
+    label: "Resposta aberta",
+    kind: "text",
+    title: "Se vocÃª pudesse mudar uma coisa no seu corpo ou na sua energia nos prÃ³ximos 90 dias, o que seria?",
+    support: "Escreva do seu jeito. Essa resposta entra no seu mapa final e ajuda a personalizar a conversa com o time HERO.",
+    placeholder: "Ex: voltar a ter disposiÃ§Ã£o, perder gordura abdominal, recuperar forÃ§a, parar de recomeÃ§ar...",
+    minLength: 8,
+    score: 52,
+    tag: "dor_aberta",
+  },
+  {
+    id: "attempts",
+    label: "HistÃ³rico",
+    title: "Quantas vezes vocÃª tentou mudar o corpo no Ãºltimo ano?",
+    options: [
+      { text: "Mantive um processo consistente.", score: 88 },
+      { text: "Tentei uma ou duas vezes, mas perdi ritmo.", score: 56 },
+      { text: "Comecei vÃ¡rias vezes e parei vÃ¡rias vezes.", score: 30 },
+      { text: "Nem consegui comeÃ§ar de verdade.", score: 16 },
+    ],
+  },
+  {
+    id: "blocker",
+    label: "Bloqueio",
+    title: "O que mais atrapalha vocÃª?",
+    evidence: "activity",
+    options: [
+      { text: "Falta de clareza sobre o que fazer.", score: 48, tag: "clareza" },
+      { text: "Falta de tempo e excesso de responsabilidade.", score: 42, tag: "tempo" },
+      { text: "CansaÃ§o, baixa energia e pouca recuperaÃ§Ã£o.", score: 30, tag: "energia" },
+      { text: "Falta de acompanhamento e cobranÃ§a inteligente.", score: 46, tag: "acompanhamento" },
+    ],
+  },
+  {
+    id: "m_energy",
+    profile: "male",
+    label: "Energia masculina",
+    title: "Em relaÃ§Ã£o Ã  sua energia ao longo do dia, qual cenÃ¡rio Ã© mais real?",
+    evidence: "sleep",
+    options: [
+      { text: "Tenho boa energia e consigo sustentar meu ritmo.", score: 86 },
+      { text: "Tenho picos bons, mas caio muito no fim do dia.", score: 60 },
+      { text: "Uso cafeÃ­na ou forÃ§a mental para funcionar.", score: 34 },
+      { text: "Sinto que minha energia caiu de forma evidente.", score: 16 },
+    ],
+  },
+  {
+    id: "m_composition",
+    profile: "male",
+    label: "ComposiÃ§Ã£o corporal",
+    title: "Sobre gordura, massa muscular e definiÃ§Ã£o, o que melhor descreve vocÃª?",
+    evidence: "body",
+    options: [
+      { text: "Estou perto do corpo que quero construir.", score: 84 },
+      { text: "Ganhei gordura ou perdi definiÃ§Ã£o, mas ainda tenho base.", score: 58 },
+      { text: "Perdi massa, forÃ§a e forma com o tempo.", score: 30 },
+      { text: "Meu corpo parece nÃ£o responder mais como antes.", score: 14 },
+    ],
+  },
+  {
+    id: "m_recovery",
+    profile: "male",
+    label: "RecuperaÃ§Ã£o",
+    title: "Como seu corpo responde depois de esforÃ§o, treino ou dias intensos?",
+    options: [
+      { text: "Recupero bem e volto pronto.", score: 86 },
+      { text: "Demoro um pouco, mas consigo manter.", score: 62 },
+      { text: "Fico dolorido, travado ou sem energia por dias.", score: 34 },
+      { text: "Evito esforÃ§o porque sei que vou pagar caro depois.", score: 14 },
+    ],
+  },
+  {
+    id: "m_strength",
+    profile: "male",
+    label: "ForÃ§a",
+    title: "Como estÃ¡ sua percepÃ§Ã£o de forÃ§a hoje?",
+    evidence: "activity",
+    options: [
+      { text: "Sinto forÃ§a e evoluÃ§Ã£o nos movimentos.", score: 88 },
+      { text: "Tenho forÃ§a, mas estou abaixo do meu potencial.", score: 62 },
+      { text: "Percebo queda de forÃ§a em tarefas simples e treinos.", score: 34 },
+      { text: "Sinto que meu corpo perdeu presenÃ§a e resposta.", score: 16 },
+    ],
+  },
+  {
+    id: "m_confidence",
+    profile: "male",
+    label: "ConfianÃ§a",
+    title: "O quanto seu corpo influencia sua confianÃ§a hoje?",
+    options: [
+      { text: "Meu corpo reforÃ§a minha seguranÃ§a.", score: 86 },
+      { text: "Ã€s vezes incomoda, mas nÃ£o domina minha confianÃ§a.", score: 60 },
+      { text: "Afeta minha postura, roupas e autoestima.", score: 32 },
+      { text: "Eu sinto que perdi parte da minha identidade.", score: 12 },
+    ],
+  },
+  {
+    id: "m_power",
+    profile: "male",
+    label: "PotÃªncia",
+    title: "Sem entrar em detalhes Ã­ntimos: sua vitalidade e potÃªncia parecem estar em que nÃ­vel?",
+    support:
+      "Essa pergunta observa sinais de vitalidade geral. NÃ£o Ã© uma avaliaÃ§Ã£o clÃ­nica, hormonal ou mÃ©dica.",
+    options: [
+      { text: "Boa, estÃ¡vel e coerente com minha fase de vida.", score: 86 },
+      { text: "Oscila mais do que antes.", score: 58 },
+      { text: "Caiu junto com meu cansaÃ§o e minha rotina.", score: 30 },
+      { text: "Ã‰ uma preocupaÃ§Ã£o clara para mim hoje.", score: 14 },
+    ],
+  },
+  {
+    id: "f_overload",
+    profile: "female",
+    label: "Sobrecarga",
+    title: "Qual frase descreve melhor sua carga mental e fÃ­sica hoje?",
+    evidence: "consistency",
+    options: [
+      { text: "Tenho responsabilidades, mas ainda encontro espaÃ§o para mim.", score: 84 },
+      { text: "Cuido de tudo, mas meu autocuidado oscila muito.", score: 58 },
+      { text: "Sinto que estou sempre devendo algo para mim.", score: 32 },
+      { text: "Estou no limite e meu corpo jÃ¡ estÃ¡ cobrando.", score: 14 },
+    ],
+  },
+  {
+    id: "f_energy",
+    profile: "female",
+    label: "Energia feminina",
+    title: "Como sua energia costuma se comportar ao longo da semana?",
+    options: [
+      { text: "Tenho energia estÃ¡vel para viver e treinar.", score: 86 },
+      { text: "Oscilo, mas ainda consigo encaixar movimento.", score: 60 },
+      { text: "Tenho mais cansaÃ§o do que disposiÃ§Ã£o.", score: 34 },
+      { text: "Sinto que estou funcionando no automÃ¡tico.", score: 14 },
+    ],
+  },
+  {
+    id: "f_body",
+    profile: "female",
+    label: "Corpo",
+    title: "Como vocÃª percebe sua composiÃ§Ã£o corporal hoje?",
+    evidence: "body",
+    options: [
+      { text: "Estou construindo uma relaÃ§Ã£o boa com meu corpo.", score: 84 },
+      { text: "Vejo pontos a melhorar, mas ainda me reconheÃ§o.", score: 60 },
+      { text: "Sinto acÃºmulo, perda de tÃ´nus ou mudanÃ§as que incomodam.", score: 32 },
+      { text: "Parece que meu corpo mudou e eu nÃ£o consegui acompanhar.", score: 14 },
+    ],
+  },
+  {
+    id: "f_identity",
+    profile: "female",
+    label: "Identidade",
+    title: "O quanto sua rotina atual parece ter afastado vocÃª da sua prÃ³pria identidade?",
+    options: [
+      { text: "Pouco. Ainda consigo me priorizar.", score: 86 },
+      { text: "Ã€s vezes sinto que me deixo para depois.", score: 58 },
+      { text: "Com frequÃªncia sinto que virei apenas funÃ§Ã£o e obrigaÃ§Ã£o.", score: 30 },
+      { text: "Sinto saudade da mulher que eu era.", score: 12 },
+    ],
+  },
+  {
+    id: "f_selfesteem",
+    profile: "female",
+    label: "Autoestima",
+    title: "Como sua autoestima corporal aparece na vida real?",
+    evidence: "body",
+    options: [
+      { text: "Escolho roupas e ambientes com seguranÃ§a.", score: 86 },
+      { text: "Tenho dias bons, mas ainda me comparo bastante.", score: 58 },
+      { text: "Evito certas roupas, fotos ou situaÃ§Ãµes.", score: 30 },
+      { text: "Meu corpo virou uma fonte constante de cobranÃ§a.", score: 12 },
+    ],
+  },
+  {
+    id: "f_recovery",
+    profile: "female",
+    label: "RecuperaÃ§Ã£o",
+    title: "Considerando ciclo, fase de vida e rotina, como estÃ¡ sua recuperaÃ§Ã£o?",
+    support:
+      "Essa pergunta considera rotina, sono, energia e percepÃ§Ã£o corporal. NÃ£o substitui avaliaÃ§Ã£o mÃ©dica ou ginecolÃ³gica.",
+    options: [
+      { text: "Boa e previsÃ­vel na maior parte do tempo.", score: 86 },
+      { text: "Oscila, mas consigo ajustar quando preciso.", score: 60 },
+      { text: "Sinto inchaÃ§o, cansaÃ§o ou queda de rendimento frequentes.", score: 32 },
+      { text: "Meu corpo parece pedir pausa o tempo todo.", score: 14 },
+    ],
+  },
+  {
+    id: "goal_main",
+    label: "Objetivo",
+    title: "Qual resultado mais mudaria sua vida hoje?",
+    evidence: "activity",
+    options: [
+      { text: "Ter energia e disposiÃ§Ã£o de novo.", score: 56, tag: "energia" },
+      { text: "Reduzir gordura e melhorar minha composiÃ§Ã£o corporal.", score: 54, tag: "composicao" },
+      { text: "Ganhar forÃ§a, forma e confianÃ§a.", score: 58, tag: "forca" },
+      { text: "Voltar a ter consistÃªncia sem depender de motivaÃ§Ã£o.", score: 50, tag: "consistencia" },
+    ],
+  },
+  {
+    id: "time_training",
+    label: "Tempo",
+    title: "Quanto tempo vocÃª consegue dedicar por treino?",
+    options: [
+      { text: "AtÃ© 30 minutos, desde que seja objetivo.", score: 54 },
+      { text: "Entre 35 e 50 minutos.", score: 70 },
+      { text: "AtÃ© 60 minutos quando a rotina permite.", score: 78 },
+      { text: "NÃ£o sei. Preciso de algo adaptado Ã  minha semana.", score: 46 },
+    ],
+  },
+  {
+    id: "days_training",
+    label: "FrequÃªncia",
+    kind: "scale",
+    title: "Em uma semana real, quantos dias vocÃª conseguiria treinar de verdade?",
+    support: "Arraste para escolher uma meta honesta. O melhor plano Ã© aquele que sobrevive Ã  sua rotina.",
+    evidence: "activity",
+    minLabel: "0 dias",
+    maxLabel: "6 dias",
+    max: 6,
+    scoreMap: "trainingDays",
+  },
+  {
+    id: "days_training_choice",
+    label: "FrequÃªncia",
+    title: "Qual frase combina melhor com essa frequÃªncia?",
+    options: [
+      { text: "2 dias bem feitos.", score: 52 },
+      { text: "3 dias consistentes.", score: 72 },
+      { text: "4 ou mais dias, com organizaÃ§Ã£o.", score: 86 },
+      { text: "Hoje eu nÃ£o sei nem por onde comeÃ§ar.", score: 30 },
+    ],
+  },
+  {
+    id: "support_need",
+    label: "Continuidade",
+    title: "O que vocÃª mais precisa para conseguir continuar?",
+    options: [
+      { text: "Um plano claro e realista.", score: 54, tag: "plano" },
+      { text: "Acompanhamento humano e ajustes semanais.", score: 58, tag: "acompanhamento" },
+      { text: "Treinos que encaixem na minha rotina.", score: 56, tag: "rotina" },
+      { text: "CobranÃ§a inteligente para nÃ£o abandonar.", score: 50, tag: "cobranca" },
+    ],
+  },
+  {
+    id: "open_commitment",
+    label: "Resposta aberta",
+    kind: "text",
+    title: "O que precisa acontecer para vocÃª nÃ£o abandonar dessa vez?",
+    support: "Pode ser cobranÃ§a, horÃ¡rio, plano, acompanhamento, ambiente ou uma decisÃ£o pessoal.",
+    placeholder: "Ex: ter alguÃ©m acompanhando, treinos curtos, metas semanais, parar de tentar sozinho...",
+    minLength: 8,
+    score: 54,
+    tag: "continuidade_aberta",
+  },
+];
+
+const processingMessages = [
+  "Analisando seu nÃ­vel de energia...",
+  "Cruzando sua rotina com seu objetivo...",
+  "Avaliando seu risco de abandono...",
+  "Identificando seus principais bloqueios...",
+  "Construindo seu Ãndice HERO...",
+];
+
+const screen = document.querySelector("#screen");
+const toast = document.querySelector("#toast");
+
+document.addEventListener("click", (event) => {
+  const target = event.target.closest("[data-action], [data-legal]");
+  if (!target) return;
+
+  const action = target.dataset.action;
+  const legal = target.dataset.legal;
+
+  if (action === "home") resetToLanding();
+  if (action === "admin") renderAdmin();
+  if (legal) renderLegal(legal);
+});
+
+window.addEventListener("popstate", () => {
+  if (location.search.includes("admin")) safeRender(renderAdmin);
+});
+
+function boot() {
+  if (location.search.includes("admin")) {
+    renderAdmin();
+    return;
+  }
+  renderLanding();
+}
+
+function safeRender(callback) {
+  try {
+    callback();
+  } catch (error) {
+    console.error("HERO render error", error);
+    if (screen) {
+      screen.innerHTML = `
+        <section class="hero">
+          <div class="hero-grid">
+            <div class="hero-content">
+              <p class="eyebrow">Check-up de Performance HERO</p>
+              <h1>Seu check-up estÃ¡ pronto para comeÃ§ar.</h1>
+              <p class="lead">Atualize a pÃ¡gina ou toque abaixo para carregar novamente a experiÃªncia.</p>
+              <div class="cta-row">
+                <button class="button primary" type="button" id="reloadExperience">CARREGAR CHECK-UP</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+      const reloadButton = document.querySelector("#reloadExperience");
+      if (reloadButton) reloadButton.addEventListener("click", () => location.reload());
+    }
+  }
+}
+
+function renderLanding() {
+  state.route = "landing";
+  screen.innerHTML = `
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <p class="eyebrow">Check-up de Performance HERO</p>
+          <h1>Seu corpo estÃ¡ envelhecendo ou apenas pedindo ajuda?</h1>
+          <p class="lead">
+            VocÃª trabalha, resolve problemas, cuida de outras pessoas e continua cumprindo suas obrigaÃ§Ãµes.
+            Mas talvez esteja se acostumando a viver cansado, sem disposiÃ§Ã£o e cada vez menos satisfeito com o
+            prÃ³prio corpo.
+          </p>
+          <ul class="trust-list" aria-label="InformaÃ§Ãµes do check-up">
+            <li>Gratuito</li>
+            <li>Resultado individual</li>
+            <li>Menos de 3 minutos</li>
+            <li>AnÃ¡lise inteligente</li>
+          </ul>
+        </div>
+
+        <aside class="access-card" aria-label="Liberar acesso ao quiz">
+          <p class="question-label">Liberar acesso</p>
+          <h2>Comece seu check-up.</h2>
+          <p class="support">
+            Preencha seus dados para abrir o quiz e receber um diagnÃ³stico individual ao final.
+          </p>
+          <form class="form-grid compact" id="landingLeadForm">
+            <div class="field">
+              <label for="landingFirstName">Primeiro nome</label>
+              <input id="landingFirstName" name="firstName" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="landingWhatsapp">WhatsApp</label>
+              <input id="landingWhatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required />
+            </div>
+            <div class="field">
+              <label for="landingEmail">E-mail</label>
+              <input id="landingEmail" name="email" type="email" autocomplete="email" required />
+            </div>
+            <label class="check">
+              <input id="landingConsent" name="consent" type="checkbox" required />
+              <span>Concordo em receber meu resultado e orientaÃ§Ãµes relacionadas Ã  minha performance.</span>
+            </label>
+            <button class="button primary full" type="submit">LIBERAR MEU QUIZ</button>
+            <button class="ghost-inline" type="button" id="seePrivacy">Como seus dados sÃ£o usados</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+  `;
+  document.querySelector("#landingLeadForm").addEventListener("submit", handleLandingLead);
+  document.querySelector("#seePrivacy").addEventListener("click", () => renderLegal("privacy"));
+}
+
+function handleLandingLead(event) {
+  event.preventDefault();
+  const form = new FormData(event.currentTarget);
+  state.lead = {
+    firstName: String(form.get("firstName")).trim(),
+    whatsapp: String(form.get("whatsapp")).trim(),
+    email: String(form.get("email")).trim(),
+    consent: Boolean(form.get("consent")),
+  };
+
+  if (!state.lead.firstName || !state.lead.whatsapp || !state.lead.email || !state.lead.consent) {
+    showToast("Preencha seus dados para liberar o quiz.");
+    return;
+  }
+
+  state.leadCaptured = true;
+  persistEvent("quiz_access_released", { stage: "landing" });
+  startQuiz();
+}
+
+function startQuiz() {
+  state.phase = "quiz";
+  state.current = -1;
+  state.profile = null;
+  state.answers = {};
+  state.result = null;
+  renderIntro();
+}
+
+function renderIntro() {
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="quiz-frame">
+        ${progressMarkup(0, "PreparaÃ§Ã£o")}
+        <article class="panel">
+          <p class="question-label">${intro.label}</p>
+          <h2>${intro.title}</h2>
+          <p class="support">${intro.support}</p>
+          <div class="cta-row">
+            <button class="button primary" type="button" id="continueIntro">COMEÃ‡AR AGORA</button>
+          </div>
+          <p class="micro">NÃ£o usamos este check-up como diagnÃ³stico mÃ©dico. Ele organiza sinais de rotina e performance para orientar o prÃ³ximo passo.</p>
+        </article>
+      </div>
+    </section>
+  `;
+  document.querySelector("#continueIntro").addEventListener("click", () => {
+    state.current = 0;
+    renderQuestion();
+  });
+}
+
+function getActiveQuestions() {
+  return questions.filter((question) => !question.profile || question.profile === state.profile);
+}
+
+function renderQuestion() {
+  const activeQuestions = getActiveQuestions();
+  const question = activeQuestions[state.current];
+
+  if (!question) {
+    renderProcessing();
+    return;
+  }
+
+  const answer = state.answers[question.id] || null;
+  const selected = answer && answer.value !== undefined && answer.value !== null ? answer.value : null;
+  const canContinue = Boolean(answer) || question.kind === "scale";
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="quiz-frame">
+        ${progressMarkup(state.current + 1, question.label)}
+        <div class="quiz-stage">
+          ${evidenceMarkup(question)}
+          <article class="question-card">
+            <p class="question-label">${question.label}</p>
+            <h2>${question.title}</h2>
+            ${question.support ? `<p class="support">${question.support}</p>` : ""}
+            ${questionInputMarkup(question, selected, answer)}
+            ${answer ? `<div class="answer-feedback">Resposta registrada. O prÃ³ximo bloco ajusta o seu mapa HERO.</div>` : ""}
+            <div class="nav-row">
+              <button class="button secondary" type="button" id="backQuestion">Voltar</button>
+              ${question.options ? "" : `<button class="button primary" type="button" id="nextQuestion" ${!canContinue ? "disabled" : ""}>Continuar</button>`}
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.querySelectorAll(".option").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.index);
+      const option = question.options[index];
+      const previousProfile = state.profile;
+      state.answers[question.id] = {
+        question: question.title,
+        answer: option.text,
+        score: option.score,
+        tag: option.tag || null,
+        value: option.value !== undefined && option.value !== null ? option.value : index,
+      };
+      if (question.id === "profile") {
+        state.profile = option.value;
+        if (previousProfile && previousProfile !== option.value) {
+          clearAnswersFromOtherProfile(option.value);
+        }
+      }
+      window.setTimeout(() => {
+        state.current += 1;
+        renderQuestion();
+      }, 180);
+    });
+  });
+
+  const scaleInput = document.querySelector("#scaleAnswer");
+  if (scaleInput) {
+    const valueLabel = document.querySelector("#scaleValue");
+    scaleInput.addEventListener("input", () => {
+      valueLabel.textContent = scaleInput.value;
+    });
+    scaleInput.addEventListener("change", () => {
+      const value = Number(scaleInput.value);
+      const max = Number(question.max || 10);
+      state.answers[question.id] = {
+        question: question.title,
+        answer: `${value}/${max}`,
+        score: scaleScore(question, value),
+        tag: question.tag || null,
+        value,
+      };
+      renderQuestion();
+    });
+  }
+
+  const textInput = document.querySelector("#textAnswer");
+  if (textInput) {
+    textInput.addEventListener("input", () => {
+      const text = textInput.value.trim();
+      const minLength = question.minLength || 3;
+      if (text.length >= minLength) {
+        state.answers[question.id] = {
+          question: question.title,
+          answer: text,
+          score: question.score || 50,
+          tag: question.tag || null,
+          value: text,
+        };
+      } else {
+        delete state.answers[question.id];
+      }
+      document.querySelector("#nextQuestion").disabled = text.length < minLength;
+    });
+  }
+
+  document.querySelector("#backQuestion").addEventListener("click", goBack);
+  const nextButton = document.querySelector("#nextQuestion");
+  if (nextButton) {
+    nextButton.addEventListener("click", () => {
+      if (question.kind === "scale" && !state.answers[question.id]) {
+        const scale = document.querySelector("#scaleAnswer");
+        const value = Number(scale.value);
+        const max = Number(question.max || 10);
+        state.answers[question.id] = {
+          question: question.title,
+          answer: `${value}/${max}`,
+          score: scaleScore(question, value),
+          tag: question.tag || null,
+          value,
+        };
+      }
+      state.current += 1;
+      renderQuestion();
+    });
+  }
+}
+
+function questionInputMarkup(question, selected, answer) {
+  if (question.kind === "scale") {
+    const max = question.max || 10;
+    const value = answer && answer.value !== undefined && answer.value !== null ? answer.value : Math.round(max / 2);
+    return `
+      <div class="scale-card">
+        <div class="scale-value"><strong id="scaleValue">${value}</strong><span>/${max}</span></div>
+        <input id="scaleAnswer" type="range" min="0" max="${max}" step="1" value="${value}" aria-label="${question.title}" />
+        <div class="scale-labels">
+          <span>${question.minLabel || "Baixo"}</span>
+          <span>${question.maxLabel || "Alto"}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  if (question.kind === "text") {
+    return `
+      <div class="open-answer">
+        <textarea id="textAnswer" rows="5" maxlength="280" placeholder="${question.placeholder || ""}">${answer && answer.answer ? answer.answer : ""}</textarea>
+        <p class="micro">Resposta aberta. MÃ­nimo de ${question.minLength || 3} caracteres.</p>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="options" role="radiogroup" aria-label="${question.title}">
+      ${question.options
+        .map((option, index) => optionMarkup(question, option, index, selected))
+        .join("")}
+    </div>
+  `;
+}
+
+function clearAnswersFromOtherProfile(profile) {
+  Object.keys(state.answers).forEach((answerId) => {
+    const matchedQuestion = questions.find((item) => item.id === answerId);
+    if (matchedQuestion && matchedQuestion.profile && matchedQuestion.profile !== profile) {
+      delete state.answers[answerId];
+    }
+  });
+}
+
+function optionMarkup(question, option, index, selected) {
+  const value = option.value !== undefined && option.value !== null ? option.value : index;
+  const isSelected = selected === value;
+  return `
+    <button class="option ${isSelected ? "selected" : ""}" type="button" data-index="${index}" role="radio" aria-checked="${isSelected}">
+      <span class="option-dot" aria-hidden="true"></span>
+      <span class="option-text">
+        <strong>${option.text}</strong>
+        ${option.detail ? `<small>${option.detail}</small>` : ""}
+      </span>
+    </button>
+  `;
+}
+
+function evidenceMarkup(question) {
+  if (question.id === "profile") return "";
+  const group = evidenceCards[question.evidence] || evidenceCards.activity;
+  const profile = state.profile === "female" ? "female" : "male";
+  const card = group[profile];
+  return `
+    <aside class="evidence-card evidence-type-${question.evidence || "activity"}">
+      <img src="${card.image}" alt="" loading="lazy" />
+      <div class="evidence-body">
+        <span class="evidence-kicker">Dado real</span>
+        <strong>${card.stat}</strong>
+        <p>${card.title}</p>
+        <small>${card.note}</small>
+        <a href="${card.url}" target="_blank" rel="noreferrer">${card.source}</a>
+      </div>
+    </aside>
+  `;
+}
+
+function scaleScore(question, value) {
+  if (question.scoreMap === "trainingDays") {
+    return clamp(Math.round((value / Number(question.max || 6)) * 78 + 12), 0, 100);
+  }
+  return clamp(value * 10, 0, 100);
+}
+
+function goBack() {
+  if (state.current <= 0) {
+    renderIntro();
+    return;
+  }
+  state.current -= 1;
+  renderQuestion();
+}
+
+function progressMarkup(step, label) {
+  const total = getActiveQuestions().length || 1;
+  const pct = Math.min(100, Math.round((step / total) * 100));
+  return `
+    <div class="progress-wrap" aria-label="Progresso do quiz">
+      <div class="progress-meta">
+        <span>${label}</span>
+        <span>${pct}% concluÃ­do</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width: ${pct}%"></div></div>
+    </div>
+  `;
+}
+
+function renderLeadCapture(isMidpoint) {
+  const preview = calculateResult(true);
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="quiz-frame">
+        ${progressMarkup(state.current + 1, "PrÃ©via liberada")}
+        <article class="panel">
+          <p class="question-label">Clareza</p>
+          <h2>Seu Check-up foi concluÃ­do.</h2>
+          <p class="support">
+            JÃ¡ identificamos sinais importantes sobre sua energia, rotina, composiÃ§Ã£o corporal e capacidade de evoluÃ§Ã£o.
+            Preencha os dados abaixo para liberar gratuitamente seu diagnÃ³stico completo.
+          </p>
+          <div class="offer-band">
+            <strong>PrÃ©via do seu Ãndice HERO: ${preview.overall}/100</strong>
+            <p class="micro">${preview.classification.description}</p>
+          </div>
+          <form class="form-grid" id="leadForm">
+            <div class="field">
+              <label for="firstName">Primeiro nome</label>
+              <input id="firstName" name="firstName" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="whatsapp">WhatsApp</label>
+              <input id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required />
+            </div>
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <label class="check">
+              <input id="consent" name="consent" type="checkbox" required />
+              <span>Concordo em receber meu resultado e orientaÃ§Ãµes relacionadas Ã  minha performance.</span>
+            </label>
+            <button class="button primary full" type="submit">LIBERAR MEU RESULTADO</button>
+            <p class="micro">
+              Seus dados serÃ£o utilizados apenas para enviar seu diagnÃ³stico e conteÃºdos relacionados Ã  sua evoluÃ§Ã£o.
+            </p>
+          </form>
+        </article>
+      </div>
+    </section>
+  `;
+
+  document.querySelector("#leadForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    state.lead = {
+      firstName: String(form.get("firstName")).trim(),
+      whatsapp: String(form.get("whatsapp")).trim(),
+      email: String(form.get("email")).trim(),
+      consent: Boolean(form.get("consent")),
+    };
+
+    if (!state.lead.firstName || !state.lead.whatsapp || !state.lead.email || !state.lead.consent) {
+      showToast("Preencha os dados e confirme o consentimento para continuar.");
+      return;
+    }
+
+    state.leadCaptured = true;
+    persistEvent("lead_captured", preview);
+    showToast("Resultado liberado. Vamos finalizar sua leitura de performance.");
+
+    if (isMidpoint) {
+      renderQuestion();
+      return;
+    }
+    renderProcessing();
+  });
+}
+
+function renderProcessing() {
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="quiz-frame">
+        <article class="panel">
+          <p class="question-label">InteligÃªncia HERO</p>
+          <h2>Organizando seus sinais de performance.</h2>
+          <p class="support">
+            A InteligÃªncia HERO organiza informaÃ§Ãµes, identifica padrÃµes e oferece suporte complementar.
+            Todas as decisÃµes importantes continuam conectadas ao acompanhamento humano.
+          </p>
+          <ul class="processing-list">
+            ${processingMessages.map((message) => `<li><span class="pulse"></span>${message}</li>`).join("")}
+          </ul>
+        </article>
+      </div>
+    </section>
+  `;
+  window.setTimeout(async () => {
+    state.result = calculateResult(false);
+    state.result = await enrichResultWithAi(state.result);
+    persistEvent("quiz_completed", state.result);
+    renderResult();
+  }, 1700);
+}
+
+async function enrichResultWithAi(result) {
+  try {
+    const response = await fetch("/.netlify/functions/diagnosis", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        lead: state.lead,
+        profile: state.profile,
+        answers: state.answers,
+        result,
+      }),
+    });
+
+    if (!response.ok) return result;
+
+    const ai = await response.json();
+    return {
+      ...result,
+      diagnosis: Array.isArray(ai.diagnosis) && ai.diagnosis.length ? ai.diagnosis.slice(0, 5) : result.diagnosis,
+      actions: Array.isArray(ai.actions) && ai.actions.length ? ai.actions.slice(0, 5) : result.actions,
+      aiSummary: ai.summary || "",
+      aiGenerated: Boolean(ai.aiGenerated),
+    };
+  } catch {
+    return result;
+  }
+}
+
+function calculateResult(isPreview) {
+  const answerList = Object.entries(state.answers)
+    .filter(([key]) => key !== "profile")
+    .map(([, answer]) => answer);
+  const scores = answerList.map((answer) => Number(answer.score || 0));
+  const average = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
+  const penalty = isPreview ? 0 : riskPenalty(answerList);
+  const overall = clamp(Math.round(average - penalty), 0, 100);
+  const tags = answerList.map((answer) => answer.tag).filter(Boolean);
+
+  const metricScores = {
+    "Energia": dimensionScore(["wake_up", "m_energy", "f_energy"], average),
+    "ComposiÃ§Ã£o corporal": dimensionScore(["body_feeling", "m_composition", "f_body"], average),
+    "ForÃ§a": dimensionScore(["m_strength", "goal_main"], average),
+    "RecuperaÃ§Ã£o": dimensionScore(["m_recovery", "f_recovery", "m_power"], average),
+    "ConsistÃªncia": dimensionScore(["routine", "attempts", "days_training", "support_need"], average),
+    "ConfianÃ§a corporal": dimensionScore(["mirror", "m_confidence", "f_selfesteem", "f_identity"], average),
+    "Capacidade de evoluÃ§Ã£o": dimensionScore(["blocker", "time_training", "goal_main", "support_need"], average),
+  };
+
+  const classification = classify(overall);
+  return {
+    overall,
+    metrics: metricScores,
+    classification,
+    tags,
+    diagnosis: buildDiagnosis(overall, metricScores, tags),
+    actions: buildActions(metricScores, tags),
+    createdAt: new Date().toISOString(),
+  };
+}
+
+function dimensionScore(ids, fallback) {
+  const values = ids
+    .map((id) => state.answers[id] ? state.answers[id].score : undefined)
+    .filter((value) => typeof value === "number");
+  if (!values.length) return clamp(Math.round(fallback), 0, 100);
+  return clamp(Math.round(values.reduce((sum, score) => sum + score, 0) / values.length), 0, 100);
+}
+
+function riskPenalty(answerList) {
+  const lowAnswers = answerList.filter((answer) => Number(answer.score) < 35).length;
+  return Math.min(12, lowAnswers * 2);
+}
+
+function classify(score) {
+  if (score >= 82) {
+    return {
+      title: "Performance em ExpansÃ£o",
+      description:
+        "VocÃª jÃ¡ tem bons fundamentos. O prÃ³ximo salto depende de estratÃ©gia, progressÃ£o e refinamento do acompanhamento.",
+    };
+  }
+  if (score >= 62) {
+    return {
+      title: "Performance InstÃ¡vel",
+      description:
+        "Existe potencial claro, mas sua rotina ainda oscila o suficiente para frear evoluÃ§Ã£o e gerar frustraÃ§Ã£o.",
+    };
+  }
+  if (score >= 42) {
+    return {
+      title: "Performance Comprometida",
+      description:
+        "Seu corpo provavelmente nÃ£o estÃ¡ sem saÃ­da; ele estÃ¡ sem um sistema que respeite sua realidade e conduza consistÃªncia.",
+    };
+  }
+  return {
+    title: "Performance em Alerta",
+    description:
+      "Os sinais de cansaÃ§o, desconexÃ£o corporal e baixa continuidade pedem uma intervenÃ§Ã£o simples, realista e acompanhada.",
+  };
+}
+
+function buildDiagnosis(score, metrics, tags) {
+  const weakest = Object.entries(metrics).sort((a, b) => a[1] - b[1])[0];
+  const strongest = Object.entries(metrics).sort((a, b) => b[1] - a[1])[0];
+  const blocker = tags[0] || "continuidade";
+  return [
+    `Identificamos que ${weakest[0].toLowerCase()} Ã© hoje o ponto que mais limita seu Ãndice HERO, com ${weakest[1]}/100.`,
+    `Na vida real, isso costuma aparecer como intenÃ§Ã£o sem execuÃ§Ã£o, oscilaÃ§Ã£o de energia e sensaÃ§Ã£o de estar sempre recomeÃ§ando.`,
+    `O principal risco Ã© transformar cansaÃ§o em identidade: vocÃª passa a funcionar no mÃ­nimo e chama isso de normal.`,
+    `Seu potencial estÃ¡ em ${strongest[0].toLowerCase()}. Esse Ã© o ponto de apoio para reconstruir rotina sem depender de motivaÃ§Ã£o.`,
+    `O prÃ³ximo passo Ã© um protocolo enxuto, com treino possÃ­vel, ajustes semanais e acompanhamento humano para remover o bloqueio de ${blocker}.`,
+  ];
+}
+
+function buildActions(metrics, tags) {
+  const weakest = Object.entries(metrics).sort((a, b) => a[1] - b[1]).slice(0, 2).map(([name]) => name);
+  const actions = [
+    "Estabelecer trÃªs sessÃµes semanais de forÃ§a, mesmo que curtas, com progressÃ£o visÃ­vel.",
+    "Definir um horÃ¡rio mÃ­nimo de execuÃ§Ã£o para reduzir o intervalo entre intenÃ§Ã£o e aÃ§Ã£o.",
+    "Organizar alimentaÃ§Ã£o e hidrataÃ§Ã£o primeiro nos dias mais difÃ­ceis, nÃ£o apenas nos dias perfeitos.",
+    "Criar uma mÃ©trica simples de energia, sono e treino para ajustar o plano sem culpa.",
+    "Usar acompanhamento semanal para corrigir rota antes que a rotina vire abandono.",
+  ];
+
+  if (weakest.includes("RecuperaÃ§Ã£o")) actions[2] = "Proteger sono, pausa e recuperaÃ§Ã£o como parte do treino, nÃ£o como prÃªmio.";
+  if (weakest.includes("ConfianÃ§a corporal")) actions[3] = "Registrar evoluÃ§Ã£o por forÃ§a, constÃ¢ncia e medidas, nÃ£o apenas por espelho ou comparaÃ§Ã£o.";
+  if (tags.includes("tempo")) actions[0] = "ComeÃ§ar com treinos objetivos de 30 a 40 minutos, desenhados para semanas reais.";
+  return actions;
+}
+
+function renderResult() {
+  const result = state.result || calculateResult(false);
+  const whatsappText = encodeURIComponent(
+    `OlÃ¡, time HERO. Fiz meu Check-up e meu Ãndice foi ${result.overall}/100 (${result.classification.title}). Quero conhecer meu protocolo.`
+  );
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="result-layout">
+        <article class="result-card">
+          <p class="question-label">Resultado</p>
+          <h2>Ãndice HERO</h2>
+          <div class="score-ring" style="--score: ${result.overall}">
+            <div>
+              <strong>${result.overall}</strong>
+              <span>/100</span>
+            </div>
+          </div>
+          <span class="classification">${result.classification.title}</span>
+          <p class="support">${result.classification.description}</p>
+          <div class="metric-list">
+            ${dimensions.map((name) => metricMarkup(name, result.metrics[name])).join("")}
+          </div>
+        </article>
+
+        <div>
+          <article class="result-card">
+            <p class="question-label">DiagnÃ³stico com IA</p>
+            <h2>${state.lead.firstName ? `${state.lead.firstName}, este Ã© o seu mapa inicial.` : "Este Ã© o seu mapa inicial."}</h2>
+            <span class="ai-badge">${result.aiGenerated ? "AnÃ¡lise individual gerada por IA" : "AnÃ¡lise local pronta para IA"}</span>
+            <ol class="diagnosis">
+              ${result.diagnosis.map((item) => `<li>${item}</li>`).join("")}
+            </ol>
+            ${result.aiSummary ? `<p class="support">${result.aiSummary}</p>` : ""}
+            <p class="micro">
+              Este indicador compara seus hÃ¡bitos, energia, recuperaÃ§Ã£o e consistÃªncia com padrÃµes de performance.
+              Ele nÃ£o representa idade biolÃ³gica ou diagnÃ³stico mÃ©dico.
+            </p>
+          </article>
+
+          <article class="result-card" style="margin-top: 18px">
+            <p class="question-label">Plano de aÃ§Ã£o gratuito</p>
+            <h2>Comece pelo que destrava execuÃ§Ã£o.</h2>
+            <ul class="action-list">
+              ${result.actions.map((action) => `<li>${action}</li>`).join("")}
+            </ul>
+            <div class="offer-band">
+              <h3>VocÃª jÃ¡ sabe o que estÃ¡ bloqueando sua evoluÃ§Ã£o. Agora precisa decidir se continuarÃ¡ tentando sozinho.</h3>
+              <p>
+                O Protocolo HERO transforma as informaÃ§Ãµes do seu Check-up em uma estratÃ©gia individual de treino,
+                acompanhamento e evoluÃ§Ã£o.
+              </p>
+              <ul class="benefit-list">
+                <li>Protocolo individual adaptado Ã  sua rotina.</li>
+                <li>Plataforma prÃ³pria para acompanhar treino e evoluÃ§Ã£o.</li>
+                <li>Suporte humano para ajustes, cobranÃ§a e continuidade.</li>
+                <li>EstratÃ©gia de progressÃ£o para energia, forÃ§a e composiÃ§Ã£o corporal.</li>
+              </ul>
+              <p class="micro"><strong>WhatsApp direto:</strong> (11) 9 2478-7933</p>
+              <div class="cta-row">
+                <a class="button primary" href="https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappText}" target="_blank" rel="noreferrer" data-conversion="protocol">QUERO CONHECER MEU PROTOCOLO</a>
+                <a class="button secondary" href="https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappText}" target="_blank" rel="noreferrer" data-conversion="whatsapp">FALAR COM O TIME HERO</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.querySelectorAll("[data-conversion]").forEach((link) => {
+    link.addEventListener("click", () => persistEvent(`click_${link.dataset.conversion}`, result));
+  });
+}
+
+function metricMarkup(name, value) {
+  return `
+    <div class="metric">
+      <div class="metric-head"><span>${name}</span><span>${value}/100</span></div>
+      <div class="metric-track"><span style="--metric: ${value}%"></span></div>
+    </div>
+  `;
+}
+
+function renderLegal(type) {
+  const pages = {
+    privacy: {
+      title: "PolÃ­tica de Privacidade",
+      body:
+        "Coletamos primeiro nome, WhatsApp, e-mail e respostas do check-up para liberar seu diagnÃ³stico, enviar orientaÃ§Ãµes relacionadas Ã  sua performance e melhorar a experiÃªncia. Os dados podem ser integrados a ferramentas de CRM, automaÃ§Ã£o e atendimento, sempre com finalidade compatÃ­vel com a evoluÃ§Ã£o solicitada por vocÃª.",
+    },
+    terms: {
+      title: "Termos de Uso",
+      body:
+        "O Check-up de Performance HERO Ã© uma ferramenta educativa e estratÃ©gica. As respostas geram uma anÃ¡lise inicial baseada em padrÃµes de rotina, energia, consistÃªncia e percepÃ§Ã£o corporal. O uso da ferramenta nÃ£o garante resultados especÃ­ficos e nÃ£o substitui acompanhamento profissional individual.",
+    },
+    health: {
+      title: "Aviso de SaÃºde",
+      body:
+        "Este check-up nÃ£o realiza diagnÃ³stico mÃ©dico, clÃ­nico, hormonal, nutricional ou psicolÃ³gico. Antes de iniciar treinos, mudanÃ§as alimentares ou protocolos intensos, procure orientaÃ§Ã£o de profissionais habilitados, especialmente em caso de sintomas, dores, condiÃ§Ãµes prÃ©-existentes ou uso de medicamentos.",
+    },
+  };
+  const page = pages[type];
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="quiz-frame">
+        <article class="panel">
+          <p class="question-label">Legal</p>
+          <h2>${page.title}</h2>
+          <p class="support">${page.body}</p>
+          <div class="cta-row">
+            <button class="button primary" type="button" id="backHome">Voltar ao inÃ­cio</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  `;
+  document.querySelector("#backHome").addEventListener("click", renderLanding);
+}
+
+function renderAdmin() {
+  const records = loadRecords();
+  const leads = records.filter((record) => record.type === "lead_captured");
+  const completed = records.filter((record) => record.type === "quiz_completed");
+  const clicks = records.filter((record) => record.type.startsWith("click_"));
+  const avg = completed.length
+    ? Math.round(completed.reduce((sum, record) => sum + Number(record.payload.overall || 0), 0) / completed.length)
+    : 0;
+
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="admin-grid">
+        <article class="panel">
+          <p class="question-label">Admin MVP</p>
+          <h2>Leads e conversÃµes locais</h2>
+          <p class="support">
+            Este painel usa o armazenamento do navegador para validar o fluxo. Na prÃ³xima etapa, estes eventos entram em Supabase,
+            CRM, WhatsApp API e webhooks.
+          </p>
+          <div class="stat-grid">
+            <div class="stat"><strong>${leads.length}</strong><span>Leads</span></div>
+            <div class="stat"><strong>${completed.length}</strong><span>ConclusÃµes</span></div>
+            <div class="stat"><strong>${avg}</strong><span>Ãndice mÃ©dio</span></div>
+            <div class="stat"><strong>${clicks.length}</strong><span>Cliques na oferta</span></div>
+          </div>
+          <div class="cta-row">
+            <button class="button secondary" type="button" id="exportData">Exportar JSON</button>
+            <button class="button secondary" type="button" id="clearData">Limpar dados locais</button>
+          </div>
+        </article>
+        <div class="admin-table-wrap" style="margin-top: 18px">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Evento</th>
+                <th>Lead</th>
+                <th>Perfil</th>
+                <th>Ãndice</th>
+                <th>Tags</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${records.length ? records.slice().reverse().map(recordRow).join("") : `<tr><td colspan="6">Nenhum evento registrado ainda.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  `;
+
+  document.querySelector("#exportData").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(records, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "hero-checkup-leads.json";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  });
+
+  document.querySelector("#clearData").addEventListener("click", () => {
+    localStorage.removeItem(STORAGE_KEY);
+    showToast("Dados locais apagados.");
+    renderAdmin();
+  });
+}
+
+function recordRow(record) {
+  const payload = record.payload || {};
+  const lead = record.lead || {};
+  return `
+    <tr>
+      <td>${new Date(record.createdAt).toLocaleString("pt-BR")}</td>
+      <td>${record.type}</td>
+      <td>${lead.firstName || "-"}<br><span class="micro">${lead.email || ""}</span></td>
+      <td>${record.profile || "-"}</td>
+      <td>${payload.overall !== undefined && payload.overall !== null ? payload.overall : "-"}</td>
+      <td>${(payload.tags || []).join(", ") || "-"}</td>
+    </tr>
+  `;
+}
+
+function persistEvent(type, payload) {
+  const record = {
+    type,
+    createdAt: new Date().toISOString(),
+    profile: state.profile,
+    lead: state.lead,
+    answers: state.answers,
+    payload,
+  };
+  const records = loadRecords();
+  records.push(record);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+
+  // Future integrations: send this same record to Supabase, CRM, WhatsApp API or a webhook.
+  if (integrations.webhookUrl) {
+    fetch(integrations.webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(record),
+    }).catch(() => {});
+  }
+}
+
+function loadRecords() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function resetToLanding() {
+  state.phase = "landing";
+  renderLanding();
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("visible");
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => toast.classList.remove("visible"), 2600);
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+safeRender(boot);
+
+</script>
+  </body>
+</html>
