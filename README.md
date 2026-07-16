@@ -54,8 +54,13 @@ Configuracao recomendada na Netlify:
 - Environment variables:
   - `OPENAI_API_KEY`: sua chave da OpenAI.
   - `OPENAI_MODEL`: opcional, padrao `gpt-5-mini`.
+  - `LEAD_EMAIL`: e-mail que recebe os leads, padrao `marcosestevees@icloud.com`.
+  - `RESEND_API_KEY`: opcional para disparar e-mail direto pela Function `lead-email`.
+  - `RESEND_FROM_EMAIL`: opcional, remetente validado no Resend.
 
 Com `OPENAI_API_KEY` configurada, o diagnostico final chama a IA pela Function `/.netlify/functions/diagnosis`. Sem a chave, o app usa o diagnostico local como fallback.
+
+O formulario inicial tambem envia cada lead para Netlify Forms com o nome `hero-lead`. Para receber sem configurar Resend, ative uma notificacao de formulario na Netlify para `marcosestevees@icloud.com`.
 
 Importante para deploy via GitHub: substitua todo o conteudo do `netlify.toml` no GitHub pelo bloco acima, faca commit e rode o deploy novamente.
 
