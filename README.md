@@ -17,6 +17,7 @@ Abra `index.html` no navegador. O app funciona sem instalacao e salva leads/even
 - Resultado com Indice HERO, dimensoes, classificacao, diagnostico e plano de acao.
 - Oferta com CTA para WhatsApp configurado em `5511924787933`.
 - Painel admin local em `?admin`.
+- Painel admin protegido por senha de sessão.
 - Paginas de privacidade, termos e aviso de saude.
 
 ## Configuracoes rapidas
@@ -24,6 +25,7 @@ Abra `index.html` no navegador. O app funciona sem instalacao e salva leads/even
 No arquivo `app.js`:
 
 - Troque `WHATSAPP_NUMBER` pelo numero oficial com DDI e DDD, se necessario.
+- Troque `ADMIN_PASSWORD` se quiser redefinir a senha do painel admin.
 - Preencha `integrations.webhookUrl` para enviar eventos a um webhook.
 - Use `supabase-schema.sql` para criar as tabelas quando migrar o armazenamento do navegador para Supabase.
 

@@ -1254,7 +1254,7 @@ td {
             <small>Performance Check-up</small>
           </span>
         </button>
-        <button class="ghost-link" type="button" data-action="admin">Admin</button>
+        <button class="ghost-link" type="button" data-action="admin" hidden>Admin</button>
       </header>
 
       <main id="screen" tabindex="-1">
@@ -1302,6 +1302,8 @@ td {
 const STORAGE_KEY = "hero_checkup_v1";
 const WHATSAPP_NUMBER = "5511924787933";
 const LEAD_NOTIFICATION_EMAIL = "marcosestevees@icloud.com";
+const ADMIN_PASSWORD = "HERO-9X7M-42QK";
+const ADMIN_SESSION_KEY = "hero_admin_unlocked_v1";
 
 const state = {
   phase: "landing",
@@ -1770,7 +1772,7 @@ document.addEventListener("click", (event) => {
   const legal = target.dataset.legal;
 
   if (action === "home") resetToLanding();
-  if (action === "admin") renderAdmin();
+  if (action === "admin") renderAdminGate();
   if (legal) renderLegal(legal);
 });
 
@@ -2545,6 +2547,11 @@ function renderLegal(type) {
 }
 
 function renderAdmin() {
+  if (!isAdminAuthorized()) {
+    renderAdminGate();
+    return;
+  }
+
   const records = loadRecords();
   const leads = records.filter((record) => record.type === "lead_captured");
   const completed = records.filter((record) => record.type === "quiz_completed");
@@ -2610,6 +2617,62 @@ function renderAdmin() {
     showToast("Dados locais apagados.");
     renderAdmin();
   });
+}
+
+function renderAdminGate(message) {
+  screen.innerHTML = `
+    <section class="workspace">
+      <div class="quiz-frame">
+        <article class="panel">
+          <p class="question-label">Acesso restrito</p>
+          <h2>Painel administrativo HERO</h2>
+          <p class="support">Digite a senha de acesso para visualizar leads e conversões locais.</p>
+          <form class="form-grid compact" id="adminLoginForm">
+            <div class="field">
+              <label for="adminPassword">Senha</label>
+              <input id="adminPassword" name="password" type="password" autocomplete="current-password" required />
+            </div>
+            ${message ? `<p class="micro"><strong>${message}</strong></p>` : ""}
+            <button class="button primary full" type="submit">ENTRAR NO ADMIN</button>
+            <button class="ghost-inline" type="button" id="backFromAdmin">Voltar ao início</button>
+          </form>
+        </article>
+      </div>
+    </section>
+  `;
+
+  const passwordInput = document.querySelector("#adminPassword");
+  if (passwordInput) passwordInput.focus();
+
+  document.querySelector("#adminLoginForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const password = String(form.get("password") || "").trim();
+    if (password !== ADMIN_PASSWORD) {
+      showToast("Senha incorreta.");
+      renderAdminGate("Senha incorreta. Tente novamente.");
+      return;
+    }
+    setAdminAuthorized();
+    showToast("Admin liberado nesta sessão.");
+    renderAdmin();
+  });
+
+  document.querySelector("#backFromAdmin").addEventListener("click", renderLanding);
+}
+
+function isAdminAuthorized() {
+  try {
+    return sessionStorage.getItem(ADMIN_SESSION_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function setAdminAuthorized() {
+  try {
+    sessionStorage.setItem(ADMIN_SESSION_KEY, "true");
+  } catch {}
 }
 
 function recordRow(record) {
