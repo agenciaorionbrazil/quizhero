@@ -679,6 +679,28 @@ h3 {
   font-weight: 800;
 }
 
+.evidence-next {
+  justify-self: start;
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  color: #06101f;
+  background: linear-gradient(135deg, #f7fbff, #76c7ff 58%, #168bff);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  box-shadow: 0 16px 34px rgba(22, 139, 255, 0.28);
+}
+
+.evidence-next:hover,
+.evidence-next:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 42px rgba(22, 139, 255, 0.36);
+}
+
 .check {
   display: grid;
   grid-template-columns: 22px 1fr;
@@ -1918,7 +1940,7 @@ function renderQuestion() {
     <section class="workspace">
       <div class="quiz-frame">
         ${progressMarkup(state.current + 1, question.label)}
-        <div class="quiz-stage">
+        <div class="quiz-stage" id="quizStage">
           ${evidenceMarkup(question)}
           <article class="question-card">
             <p class="question-label">${question.label}</p>
@@ -2021,6 +2043,8 @@ function renderQuestion() {
       renderQuestion();
     });
   }
+
+  focusQuestionEvidence();
 }
 
 function questionInputMarkup(question, selected, answer) {
@@ -2094,9 +2118,27 @@ function evidenceMarkup(question) {
         <p>${card.title}</p>
         <small>${card.note}</small>
         <a href="${card.url}" target="_blank" rel="noreferrer">${card.source}</a>
+        <button class="evidence-next" type="button" data-scroll-answer>Responder agora</button>
       </div>
     </aside>
   `;
+}
+
+function focusQuestionEvidence() {
+  window.setTimeout(() => {
+    const target = document.querySelector(".evidence-card") || document.querySelector(".question-card");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    const answerButton = document.querySelector("[data-scroll-answer]");
+    if (answerButton) {
+      answerButton.addEventListener("click", () => {
+        const questionCard = document.querySelector(".question-card");
+        if (questionCard) questionCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, 40);
 }
 
 function scaleScore(question, value) {
@@ -2240,7 +2282,14 @@ async function enrichResultWithAi(result) {
       }),
     });
 
-    if (!response.ok) return result;
+    if (!response.ok) {
+      const detail = await readAiError(response);
+      return {
+        ...result,
+        aiGenerated: false,
+        aiStatus: detail || "IA não configurada na Netlify.",
+      };
+    }
 
     const ai = await response.json();
     return {
@@ -2249,9 +2298,26 @@ async function enrichResultWithAi(result) {
       actions: Array.isArray(ai.actions) && ai.actions.length ? ai.actions.slice(0, 5) : result.actions,
       aiSummary: ai.summary || "",
       aiGenerated: Boolean(ai.aiGenerated),
+      aiStatus: ai.aiGenerated ? "IA ativa" : "IA não configurada na Netlify.",
     };
   } catch {
-    return result;
+    return {
+      ...result,
+      aiGenerated: false,
+      aiStatus: "IA indisponível no momento. Verifique a variável OPENAI_API_KEY na Netlify.",
+    };
+  }
+}
+
+async function readAiError(response) {
+  try {
+    const data = await response.json();
+    if (data && data.error === "OPENAI_API_KEY is not configured") {
+      return "IA não configurada na Netlify: falta OPENAI_API_KEY.";
+    }
+    return data && data.error ? String(data.error) : "";
+  } catch {
+    return "";
   }
 }
 
@@ -2386,11 +2452,12 @@ function renderResult() {
           <article class="result-card">
             <p class="question-label">Diagnóstico com IA</p>
             <h2>${state.lead.firstName ? `${state.lead.firstName}, este é o seu mapa inicial.` : "Este é o seu mapa inicial."}</h2>
-            <span class="ai-badge">${result.aiGenerated ? "Análise individual gerada por IA" : "Análise local pronta para IA"}</span>
+            <span class="ai-badge">${result.aiGenerated ? "Análise individual gerada por IA" : "IA aguardando configuração"}</span>
             <ol class="diagnosis">
               ${result.diagnosis.map((item) => `<li>${item}</li>`).join("")}
             </ol>
             ${result.aiSummary ? `<p class="support">${result.aiSummary}</p>` : ""}
+            ${!result.aiGenerated && result.aiStatus ? `<p class="micro"><strong>Status da IA:</strong> ${result.aiStatus}</p>` : ""}
             <p class="micro">
               Este indicador compara seus hábitos, energia, recuperação e consistência com padrões de performance.
               Ele não representa idade biológica ou diagnóstico médico.
